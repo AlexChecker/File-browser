@@ -5,15 +5,19 @@
 #ifndef TESTIMGUI_VARIABLES_H
 #define TESTIMGUI_VARIABLES_H
 #include <string>
-#include "imgui.h"
+#include "imgui-1.88/imgui.h"
 
 bool beginCopy=false;
 bool copied = false;
 bool endCopy=false;
+bool startMove=false;
+bool showTextPreview = false;
+bool fileExists=false;
 
 std::string copyFromFile;
 std::string copyingFileName;
-std::string viewingFilePath;
+std::string fullFileName;
+std::string context;
 
 
 ImVec2 pos;
@@ -21,6 +25,7 @@ ImVec2 pos2;
 ImVec2 size;
 ImVec2 halfSize;
 ImVec2 textViewSize;
+ImVec2 consize(400,400);
 
 
 

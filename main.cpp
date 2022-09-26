@@ -5,19 +5,21 @@
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
-#include "imgui.h"
+#include "imgui-1.88/imgui.h"
 #include <iostream>
 #include <vector>
 #include "filesystem.hpp"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "imgui-1.88/backends/imgui_impl_glfw.h"
+#include "imgui-1.88/backends/imgui_impl_opengl3.h"
+#include "imgui-1.88/misc/cpp/imgui_stdlib.h"
 #include <stdio.h>
 #include <fstream>
 #include "variables.h"
+#include <spawn.h>
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
-#include <GLFW/glfw3.h> // Will drag system OpenGL headers
+#include </usr/local/Cellar/glfw/3.3.8/include/GLFW/glfw3.h> // Will drag system OpenGL headers
 
 namespace fs = ghc::filesystem;
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
@@ -39,6 +41,7 @@ static void glfw_window_resize_callback(GLFWwindow* window,int w,int h)
     size=ImVec2(w/2,h);
     pos2=ImVec2(w/2,0);
     halfSize=ImVec2(w/2,h/2);
+    
 }
 
 void readFile(std::string path,std::string& content)
@@ -77,6 +80,7 @@ void fillVectorFiles(std::string path,std::vector<std::string>& files)
             std::string temp = entry.path();
             temp = temp.substr(temp.find_last_of('/')+1,temp.length());
             files.push_back(temp);
+            
         }
     }
 }
@@ -133,7 +137,8 @@ int main(int, char**)
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsClassic();
+    ImGui::StyleColorsClassic();
     //ImGui::StyleColorsLight();
 
     // Setup Platform/Renderer backends
@@ -177,17 +182,10 @@ int main(int, char**)
     fileFlags |= ImGuiWindowFlags_NoResize;
     fileFlags |= ImGuiWindowFlags_NoCollapse;
     fileFlags |= ImGuiWindowFlags_MenuBar;
-    ImGuiWindowFlags viewFlags =0;
-    viewFlags |= ImGuiWindowFlags_NoMove;
-    viewFlags |= ImGuiWindowFlags_NoResize;
-    viewFlags |= ImGuiWindowFlags_NoCollapse;
-    viewFlags |= ImGuiWindowFlags_NoScrollWithMouse;
     ImGuiInputTextFlags textFlag =0;
     textFlag |= ImGuiInputTextFlags_ReadOnly;
     bool *open=NULL;
     glfwSetWindowSizeCallback(window,glfw_window_resize_callback);
-    bool showTextPreview = false;
-
     std::string contents="";
 
 
@@ -207,7 +205,7 @@ int main(int, char**)
         ImGui::NewFrame();
 
         if(showTextPreview) {
-            ImGui::Begin("Text view", open, viewFlags);
+            ImGui::Begin("Text view", open, flags);
             ImGui::SetWindowSize(halfSize);
             ImGui::SetWindowPos(halfSize);
             char* txt= new char[contents.size()+1];
@@ -250,7 +248,17 @@ int main(int, char**)
             //std::cout<<sel<<std::endl;
         }
         ImGui::End();
-
+        
+        if(fileExists)
+        {
+            ImGui::Begin("File exists");
+            ImGui::Text("File %s exists, can't copy or move.",fullFileName.c_str());
+            fileExists=!ImGui::Button("Close");
+            beginCopy=fileExists;
+            endCopy=fileExists;
+            startMove=fileExists;
+            ImGui::End();
+        }
 
         ImGui::Begin("Files",open,fileFlags);
         ImGui::SetWindowPos(pos2);
@@ -262,8 +270,9 @@ int main(int, char**)
         {
             if(ImGui::BeginMenu("File"))
             {
-                ImGui::MenuItem("Copy",NULL,&beginCopy,(beginCopy==true)?false:true);
-                ImGui::MenuItem("Paste",NULL,&endCopy,(beginCopy==true)?true:false);
+                ImGui::MenuItem("Copy",NULL,&beginCopy,(startMove)?false:true);
+                ImGui::MenuItem("Paste",NULL,&endCopy,(beginCopy||startMove)?true:false);
+                ImGui::MenuItem("Move",NULL,&startMove,(beginCopy)?false:true);
                 ImGui::EndMenu();
             }
             ImGui::EndMenuBar();
@@ -295,8 +304,16 @@ int main(int, char**)
                     copyingFileName = name;
                     copied=true;
                 }
+                if(startMove&&!copied&&s==i)
+                {
+                    
+                }
                 if(endCopy)
                 {
+                    if(!fs::exists(path+'/'+copyingFileName))
+                    {
+                        
+                    
                     fs::copy_file(copyFromFile,path+'/'+copyingFileName);
                     std::cout<<"Pasting: "<<copyFromFile<<" "<<path+'/'+copyingFileName<<std::endl;
                     beginCopy=false;
@@ -306,6 +323,12 @@ int main(int, char**)
                     copyingFileName="";
                     files.clear();
                     fillVectorFiles(path,files);
+                    }
+                    else
+                    {
+                        fileExists=true;
+                        fullFileName=path+'/'+copyingFileName;
+                    }
                 }
             }
         ImGui::End();
