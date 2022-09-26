@@ -89,7 +89,7 @@ void fillVectorFiles(std::string path,std::vector<std::string>& files)
 int main(int, char**)
 {
     //fs::path("/users/alex");
-    std::string path ="/users/alex";
+    std::string path ="";
     std::vector<std::string> paths;
     std::vector<std::string> files;
     fillVectorDirs(path,paths);
@@ -108,6 +108,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 #elif defined(__APPLE__)
     // GL 3.2 + GLSL 150
+    path ="/users";
     const char* glsl_version = "#version 150";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
@@ -115,6 +116,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
 #else
     // GL 3.0 + GLSL 130
+    path="/home";
     const char* glsl_version = "#version 130";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
