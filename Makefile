@@ -16,7 +16,7 @@
 #CXX = g++
 #CXX = clang++
 
-EXE = ImGuitest
+EXE = ImGuites
 IMGUI_DIR = imgui-1.88
 SOURCES = main.cpp
 SOURCES += $(IMGUI_DIR)/imgui.cpp $(IMGUI_DIR)/imgui_demo.cpp $(IMGUI_DIR)/imgui_draw.cpp $(IMGUI_DIR)/imgui_tables.cpp $(IMGUI_DIR)/imgui_widgets.cpp
@@ -67,6 +67,7 @@ ifeq ($(OS), Windows_NT)
 	CXXFLAGS += `pkg-config --cflags glfw3`
 	CFLAGS = $(CXXFLAGS)
 endif
+
 
 ##---------------------------------------------------------------------
 ## BUILD RULES
