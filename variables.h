@@ -11,8 +11,10 @@ bool beginCopy=false;
 bool copied = false;
 bool endCopy=false;
 bool startMove=false;
+bool endMove = false;
 bool showTextPreview = false;
 bool fileExists=false;
+bool confirmDelete=false;
 
 std::string copyFromFile;
 std::string copyingFileName;
