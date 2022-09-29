@@ -29,10 +29,20 @@ void showTextView(bool show)
 void showDirectoriesList()
 {
 
-    ImGui::Begin("Directories", ope,flags);
+    ImGui::Begin("Directories", ope,fileFlags);
     ImGui::SetWindowSize(size);
     ImGui::SetWindowPos(pos);
+    if(ImGui::BeginMenuBar())
+    {
+        if(ImGui::BeginMenu("Tools"))
+        {
+            ImGui::MenuItem("Copy", nullptr,&copyDir);
+            ImGui::MenuItem("Paste",nullptr,&pasteDir,copyDir);
+            ImGui::EndMenu();
+        }
 
+        ImGui::EndMenuBar();
+    }
     ImGui::Text("%s", path.c_str());
     ImGui::Checkbox("Show demo",&showdemo);
 
@@ -42,32 +52,73 @@ void showDirectoriesList()
         char title[255];
         //sprintf(title,"Entry %d",i);
         strcpy(title,paths[i].c_str());
+
         if(ImGui::Selectable(title,sel==i)) {
             sel = i;
-            if(sel ==0)
-            {
-                path = path.substr(0,path.find_last_of('/'));
+            if(!selectionMode) {
+                if (sel == 0) {
+                    path = path.substr(0, path.find_last_of('/'));
+                } else
+                    path = path + "/" + title;
             }
             else
-                path = path+"/"+title;
+            {
+
+                std::cout<<copyDir<<" "<<dirCopied<<std::endl;
+                copyingDirPath = path+'/'+title;
+
+            }
             paths.clear();
             files.clear();
             fillVectorDirs(path,paths);
             fillVectorFiles(path,files);
         }
+
+
+
+    }
+    if(copyDir&&!dirCopied)
+    {
+        //copyingDirPath = path+'/'+title;
+        std::cout<<"Copying dir "<<copyingDirPath<<std::endl;
+        dirCopied= true;
+    }
+    if(pasteDir)
+    {
+        std::cout<<copyingDirPath<<"|"<<path<<std::endl;
+        copyDirectory(copyingDirPath,path);
+        copyDir= false;
+        dirCopied=false;
+        pasteDir=false;
+        copyingDirPath="";
+        paths.clear();
+        files.clear();
+        fillVectorDirs(path,paths);
+        fillVectorFiles(path,files);
     }
     ImGui::End();
 }
 
 void fileExistsDialog()
 {
-    ImGui::Begin("File exists");
+    ImGui::Begin("File exists",ope,alertFlags);
     ImGui::Text("File %s exists, can't copy or move.",fullFileName.c_str());
     fileExists=!ImGui::Button("Close");
     beginCopy=fileExists;
     endCopy=fileExists;
     startMove=fileExists;
     ImGui::End();
+}
+
+void directoryExistsDialog()
+{
+    ImGui::Begin("Directory exists",ope,alertFlags);
+    ImGui::Text("Directory %s exists, can't overwrite",copyingDirPath.c_str());
+    dirExists=!ImGui::Button("Close");
+    copyDir=false;
+    dirExists=false;
+    pasteDir=false;
+    dirCopied = false;
 }
 
 void confirmDeleteDialog()

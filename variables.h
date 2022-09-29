@@ -17,11 +17,17 @@ bool fileExists=false;
 bool confirmDelete=false;
 bool showdemo = false;
 bool *ope = nullptr;
-
+bool copyDir = false;
+bool pasteDir = false;
+bool dirExists = false;
+bool dirCopied = false;
+bool selectionMode =false;
 
 std::vector<std::string> paths;
 std::vector<std::string> files;
 
+
+std::string copyingDirPath;
 std::string path;
 std::string copyFromFile;
 std::string copyingFileName;
@@ -42,6 +48,7 @@ ImGuiWindowFlags flags =0;
 
 ImGuiWindowFlags fileFlags =0;
 ImGuiInputTextFlags textFlag =0;
+ImGuiWindowFlags alertFlags =0;
 
 
 #endif //TESTIMGUI_VARIABLES_H

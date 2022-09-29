@@ -145,6 +145,10 @@ int main(int, char**)
 
     textFlag |= ImGuiInputTextFlags_ReadOnly;
 
+    alertFlags |=ImGuiWindowFlags_NoResize;
+    alertFlags |=ImGuiWindowFlags_NoCollapse;
+
+
 
 
     while (!glfwWindowShouldClose(window))
@@ -162,16 +166,28 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        //std::cout<<copyDir<<"|"<<dirCopied<<"|"<<copyingDirPath<<std::endl;
+        if(io.KeyShift)
+        {
+            selectionMode=true;
+        }
+        if(io.KeyCtrl)
+        {
+            selectionMode=false;
+        }
         if(showTextPreview)
         showTextView(showTextPreview);
-        showDirectoriesList();
         showFilesList();
+        showDirectoriesList();
         
         if(fileExists)
         {
             fileExistsDialog();
         }
-
+        if(dirExists)
+        {
+            directoryExistsDialog();
+        }
         if(confirmDelete)
         {
             confirmDeleteDialog();
