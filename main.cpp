@@ -11,7 +11,6 @@
 #include "filesystem.hpp"
 #include "imgui-1.88/backends/imgui_impl_glfw.h"
 #include "imgui-1.88/backends/imgui_impl_opengl3.h"
-#include "imgui-1.88/misc/cpp/imgui_stdlib.h"
 #include <cstdio>
 #include "variables.h"
 #include "drawings.h"

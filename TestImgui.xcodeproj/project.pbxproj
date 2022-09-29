@@ -1,0 +1,174 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXFileReference section */
+		FA8F371328E0873A00FE66A1 /* main.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = main.o; sourceTree = "<group>"; };
+		FA8F371428E0873A00FE66A1 /* launch.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = launch.sh; sourceTree = "<group>"; };
+		FA8F371528E0873A00FE66A1 /* imgui.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui.o; sourceTree = "<group>"; };
+		FA8F371628E0873A00FE66A1 /* .DS_Store */ = {isa = PBXFileReference; lastKnownFileType = file; path = .DS_Store; sourceTree = "<group>"; };
+		FA8F371728E0873A00FE66A1 /* ImGuitest */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = ImGuitest; sourceTree = "<group>"; };
+		FA8F371828E0873A00FE66A1 /* imgui_draw.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui_draw.o; sourceTree = "<group>"; };
+		FA8F371928E0873A00FE66A1 /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		FA8F371A28E0873A00FE66A1 /* imgui_impl_opengl3.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui_impl_opengl3.o; sourceTree = "<group>"; };
+		FA8F371B28E0873A00FE66A1 /* filesystem.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = filesystem.hpp; sourceTree = "<group>"; };
+		FA8F371C28E0873A00FE66A1 /* imgui-1.88 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "imgui-1.88"; sourceTree = "<group>"; };
+		FA8F371D28E0873A00FE66A1 /* imgui.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = imgui.ini; sourceTree = "<group>"; };
+		FA8F371E28E0873A00FE66A1 /* imgui_impl_glfw.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui_impl_glfw.o; sourceTree = "<group>"; };
+		FA8F371F28E0873A00FE66A1 /* variables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = variables.h; sourceTree = "<group>"; };
+		FA8F372028E0873A00FE66A1 /* imgui_tables.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui_tables.o; sourceTree = "<group>"; };
+		FA8F372128E0873A00FE66A1 /* .git */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .git; sourceTree = "<group>"; };
+		FA8F372228E0873A00FE66A1 /* .vscode */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .vscode; sourceTree = "<group>"; };
+		FA8F372328E0873A00FE66A1 /* imgui_demo.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui_demo.o; sourceTree = "<group>"; };
+		FA8F372428E0873A00FE66A1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		FA8F372528E0873A00FE66A1 /* .idea */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .idea; sourceTree = "<group>"; };
+		FA8F372628E0873A00FE66A1 /* imgui_widgets.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = imgui_widgets.o; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		FA8F370D28E0873A00FE66A1 = {
+			isa = PBXGroup;
+			children = (
+				FA8F371328E0873A00FE66A1 /* main.o */,
+				FA8F371428E0873A00FE66A1 /* launch.sh */,
+				FA8F371528E0873A00FE66A1 /* imgui.o */,
+				FA8F371628E0873A00FE66A1 /* .DS_Store */,
+				FA8F371728E0873A00FE66A1 /* ImGuitest */,
+				FA8F371828E0873A00FE66A1 /* imgui_draw.o */,
+				FA8F371928E0873A00FE66A1 /* Makefile */,
+				FA8F371A28E0873A00FE66A1 /* imgui_impl_opengl3.o */,
+				FA8F371B28E0873A00FE66A1 /* filesystem.hpp */,
+				FA8F371C28E0873A00FE66A1 /* imgui-1.88 */,
+				FA8F371D28E0873A00FE66A1 /* imgui.ini */,
+				FA8F371E28E0873A00FE66A1 /* imgui_impl_glfw.o */,
+				FA8F371F28E0873A00FE66A1 /* variables.h */,
+				FA8F372028E0873A00FE66A1 /* imgui_tables.o */,
+				FA8F372128E0873A00FE66A1 /* .git */,
+				FA8F372228E0873A00FE66A1 /* .vscode */,
+				FA8F372328E0873A00FE66A1 /* imgui_demo.o */,
+				FA8F372428E0873A00FE66A1 /* main.cpp */,
+				FA8F372528E0873A00FE66A1 /* .idea */,
+				FA8F372628E0873A00FE66A1 /* imgui_widgets.o */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		FA8F371228E0873A00FE66A1 /* TestImgui */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = FA8F372728E0873A00FE66A1 /* Build configuration list for PBXLegacyTarget "TestImgui" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "/Users/alex/Desktop/Xcode projects/TestImgui";
+			dependencies = (
+			);
+			name = TestImgui;
+			passBuildSettingsInEnvironment = 1;
+			productName = TestImgui;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		FA8F370E28E0873A00FE66A1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+			};
+			buildConfigurationList = FA8F371128E0873A00FE66A1 /* Build configuration list for PBXProject "TestImgui" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FA8F370D28E0873A00FE66A1;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FA8F371228E0873A00FE66A1 /* TestImgui */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		FA8F370F28E0873A00FE66A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Debug;
+		};
+		FA8F371028E0873A00FE66A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		FA8F372828E0873A00FE66A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = TestImgui;
+			};
+			name = Debug;
+		};
+		FA8F372928E0873A00FE66A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = TestImgui;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FA8F371128E0873A00FE66A1 /* Build configuration list for PBXProject "TestImgui" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA8F370F28E0873A00FE66A1 /* Debug */,
+				FA8F371028E0873A00FE66A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FA8F372728E0873A00FE66A1 /* Build configuration list for PBXLegacyTarget "TestImgui" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA8F372828E0873A00FE66A1 /* Debug */,
+				FA8F372928E0873A00FE66A1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FA8F370E28E0873A00FE66A1 /* Project object */;
+}
