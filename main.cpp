@@ -12,9 +12,10 @@
 #include "imgui-1.88/backends/imgui_impl_glfw.h"
 #include "imgui-1.88/backends/imgui_impl_opengl3.h"
 #include "imgui-1.88/misc/cpp/imgui_stdlib.h"
-#include <stdio.h>
-#include <fstream>
+#include <cstdio>
 #include "variables.h"
+#include "drawings.h"
+#include "functions.h"
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
@@ -22,7 +23,7 @@
 
 namespace fs = ghc::filesystem;
 // [Win32] Our example includes a copy of glfw3.lib pre-compiled with VS2010 to maximize ease of testing and compatibility with old VS compilers.
-// To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do using this pragma.
+// To link with VS2010-era libraries, VS2015+ requires linking with legacy_stdio_definitions.lib, which we do use this pragma.
 // Your own project should not be affected, as you are likely to link with a newer binary of GLFW that is adequate for your version of Visual Studio.
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -43,59 +44,10 @@ static void glfw_window_resize_callback(GLFWwindow* window,int w,int h)
     
 }
 
-void readFile(std::string path,std::string& content)
-{
-    if(!fs::exists(path))
-    {
-        content="";
-        return;
-    }
-    std::ifstream file (path);
-    std::string temp;
-    if(file.is_open())
-    {
-        while(getline(file,temp))
-        {
-            content = content+temp+'\n';
-        }
-        file.close();
-    }
-}
-
-
-void fillVectorDirs(std::string path, std::vector<std::string>& paths)
-{
-    paths.push_back("..");
-    for (const auto & entry : fs::directory_iterator(path))
-        if(fs::is_directory(entry)) {
-            //paths.push_back(entry.path());
-
-            std::string temp = entry.path();
-            temp = temp.substr(temp.find_last_of('/')+1,temp.length());
-            paths.push_back(temp);
-        }
-}
-
-void fillVectorFiles(std::string path,std::vector<std::string>& files)
-{
-    for(const auto& entry : fs::directory_iterator(path))
-    {
-        if (!fs::is_directory(entry)) {
-            std::string temp = entry.path();
-            temp = temp.substr(temp.find_last_of('/')+1,temp.length());
-            files.push_back(temp);
-            
-        }
-    }
-}
-
 
 int main(int, char**)
 {
     //fs::path("/users/alex");
-    std::string path ="";
-    std::vector<std::string> paths;
-    std::vector<std::string> files;
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -129,8 +81,8 @@ int main(int, char**)
     fillVectorFiles(path,files);
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "File browser", NULL, NULL);
-    if (window == NULL)
+    GLFWwindow* window = glfwCreateWindow(1280, 720, "File browser", nullptr, nullptr);
+    if (window == nullptr)
         return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
@@ -178,21 +130,21 @@ int main(int, char**)
     pos2=ImVec2(width/2,0);
     halfSize=ImVec2(width/2,height/2);
     textViewSize=ImVec2(width/2-10,height/2-35);
-    bool showdemo = false;
-    ImGuiWindowFlags flags =0;
+    glfwSetWindowSizeCallback(window,glfw_window_resize_callback);
+
     flags |= ImGuiWindowFlags_NoMove;
     flags |= ImGuiWindowFlags_NoResize;
     flags |= ImGuiWindowFlags_NoCollapse;
-    ImGuiWindowFlags fileFlags =0;
+
+
     fileFlags |= ImGuiWindowFlags_NoMove;
     fileFlags |= ImGuiWindowFlags_NoResize;
     fileFlags |= ImGuiWindowFlags_NoCollapse;
     fileFlags |= ImGuiWindowFlags_MenuBar;
-    ImGuiInputTextFlags textFlag =0;
+
+
     textFlag |= ImGuiInputTextFlags_ReadOnly;
-    bool *open=NULL;
-    glfwSetWindowSizeCallback(window,glfw_window_resize_callback);
-    std::string contents="";
+
 
 
     while (!glfwWindowShouldClose(window))
@@ -210,177 +162,21 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        if(showTextPreview) {
-            ImGui::Begin("Text view", open, flags);
-            ImGui::SetWindowSize(halfSize);
-            ImGui::SetWindowPos(halfSize);
-            char* txt= new char[contents.size()+1];
-            std::copy(contents.begin(),contents.end(),txt);
-            txt[contents.size()]='\0';
-            //strcpy(txt,contents);
-            std::cout<<contents.length()<<std::endl;
-            ImGui::InputTextMultiline(" ",txt,contents.size()+1,textViewSize);
-
-            ImGui::End();
-        }
-
-	//Put your ImGui stuff here
-        ImGui::Begin("Directories", open,flags);
-        ImGui::SetWindowSize(size);
-        ImGui::SetWindowPos(pos);
-
-        ImGui::Text(path.c_str());
-        ImGui::Checkbox("Show demo",&showdemo);
-
-        static int sel =-1;
-        for(int i=0;i<paths.size();i++)
-        {
-            char title[255];
-            //sprintf(title,"Entry %d",i);
-            strcpy(title,paths[i].c_str());
-            if(ImGui::Selectable(title,sel==i)) {
-                sel = i;
-                if(sel ==0)
-                {
-                    path = path.substr(0,path.find_last_of("/"));
-                }
-                else
-                path = path+"/"+title;
-                paths.clear();
-                files.clear();
-                fillVectorDirs(path,paths);
-                fillVectorFiles(path,files);
-            }
-            //std::cout<<sel<<std::endl;
-        }
-        ImGui::End();
+        if(showTextPreview)
+        showTextView(showTextPreview);
+        showDirectoriesList();
+        showFilesList();
         
         if(fileExists)
         {
-            ImGui::Begin("File exists");
-            ImGui::Text("File %s exists, can't copy or move.",fullFileName.c_str());
-            fileExists=!ImGui::Button("Close");
-            beginCopy=fileExists;
-            endCopy=fileExists;
-            startMove=fileExists;
-            ImGui::End();
+            fileExistsDialog();
         }
 
         if(confirmDelete)
         {
-            ImGui::Begin("Delete?");
-            ImGui::Text("Do you really want to delete this file?");
-            if(ImGui::Button("Yes"))
-            {
-                std::remove(fullFileName.c_str());
-                confirmDelete=false;
-                files.clear();
-                fillVectorFiles(path,files);
-                fullFileName="";
-            }
-            if(ImGui::Button("Cancel"))
-            {
-                confirmDelete=false;
-            }
-            ImGui::End();
+            confirmDeleteDialog();
         }
 
-        ImGui::Begin("Files",open,fileFlags);
-        ImGui::SetWindowPos(pos2);
-        if(showTextPreview)
-            ImGui::SetWindowSize(halfSize);
-        else
-            ImGui::SetWindowSize(size);
-        if(ImGui::BeginMenuBar())
-        {
-            if(ImGui::BeginMenu("File"))
-            {
-                ImGui::MenuItem("Copy",NULL,&beginCopy,(startMove)?false:true);
-                ImGui::MenuItem("Paste",NULL,&endCopy,(beginCopy||startMove)?true:false);
-                ImGui::MenuItem("Move",NULL,&startMove,(beginCopy)?false:true);
-                ImGui::MenuItem("Delete", NULL,&confirmDelete,(fullFileName!="")?true:false);
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenuBar();
-        }
-        ImGui::Checkbox("Show file preview?",&showTextPreview);
-            static int s =-1;
-
-            for (int i=0;i<files.size();i++)
-            {
-                char name[255];
-                strcpy(name,files[i].c_str());
-                if(ImGui::Selectable(name,s==i))
-                {
-                    s=i;
-                    fullFileName=path+'/'+name;
-                    std::cout<<"Info: "<<s<<' '<<beginCopy<<' '<<endCopy<<std::endl;
-                    if(showTextPreview)
-                    {
-                        //viewingFilePath = path + '/' + name;
-                        contents = "";
-                        std::cout << path + '/' + name << std::endl;
-                        readFile(path + '/' + name, contents);
-                    }
-                }
-
-                if(beginCopy&&!copied&&s==i)
-                {
-                    copyFromFile = path+'/'+name;
-                    std::cout<<"Copying "<<copyFromFile<<std::endl;
-                    copyingFileName = name;
-                    copied=true;
-                }
-                if(startMove&&!endMove&&s==i)
-                {
-                    copyFromFile=path+'/'+name;
-                    std::cout<<"Moving "<<copyFromFile<<std::endl;
-                    copyingFileName = name;
-                    endMove = true;
-                }
-                
-            }
-        if(endCopy)
-        {
-            if(copyFromFile != path+'/'+copyingFileName) {
-                
-                
-                if (!fs::exists(path + '/' + copyingFileName)) {
-                    
-                    if (endMove) {
-                        std::cout << "Moving file from " << copyFromFile << " to " << path + '/' + copyingFileName
-                        << std::endl;
-                        fs::copy_file(copyFromFile, path + '/' + copyingFileName);
-                        
-                        std::remove(copyFromFile.c_str());
-                        startMove=false;
-                        endMove=false;
-                        copyingFileName="";
-                        endCopy=false;
-                        copyFromFile="";
-                        files.clear();
-                        fillVectorFiles(path, files);
-                        
-                    }
-                    else {
-                        fs::copy_file(copyFromFile, path + '/' + copyingFileName);
-                        std::cout << "Pasting: " << copyFromFile << " " << path + '/' + copyingFileName
-                        << std::endl;
-                        beginCopy = false;
-                        copied = false;
-                        endCopy = false;
-                        copyFromFile = "";
-                        copyingFileName = "";
-                        files.clear();
-                        fillVectorFiles(path, files);
-                    }
-                } else {
-                    fileExists = true;
-                    fullFileName = path + '/' + copyingFileName;
-                }
-            }
-        }
-        ImGui::End();
 
         if(showdemo) ImGui::ShowDemoWindow(&showdemo);
 

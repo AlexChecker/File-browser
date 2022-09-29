@@ -15,11 +15,19 @@ bool endMove = false;
 bool showTextPreview = false;
 bool fileExists=false;
 bool confirmDelete=false;
+bool showdemo = false;
+bool *ope = nullptr;
 
+
+std::vector<std::string> paths;
+std::vector<std::string> files;
+
+std::string path;
 std::string copyFromFile;
 std::string copyingFileName;
 std::string fullFileName;
 std::string context;
+std::string contents;
 
 
 ImVec2 pos;
@@ -29,6 +37,11 @@ ImVec2 halfSize;
 ImVec2 textViewSize;
 ImVec2 consize(400,400);
 
+
+ImGuiWindowFlags flags =0;
+
+ImGuiWindowFlags fileFlags =0;
+ImGuiInputTextFlags textFlag =0;
 
 
 #endif //TESTIMGUI_VARIABLES_H
