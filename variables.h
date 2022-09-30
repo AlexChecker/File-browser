@@ -6,6 +6,7 @@
 #define TESTIMGUI_VARIABLES_H
 #include <string>
 #include "imgui-1.88/imgui.h"
+#include <vector>
 
 bool beginCopy=false;
 bool copied = false;
@@ -22,12 +23,14 @@ bool pasteDir = false;
 bool dirExists = false;
 bool dirCopied = false;
 bool selectionMode =false;
+bool confirmDeleteDirectory=false;
 
 std::vector<std::string> paths;
 std::vector<std::string> files;
 
 
 std::string copyingDirPath;
+std::string fullDirPath;
 std::string path;
 std::string copyFromFile;
 std::string copyingFileName;
@@ -41,7 +44,6 @@ ImVec2 pos2;
 ImVec2 size;
 ImVec2 halfSize;
 ImVec2 textViewSize;
-ImVec2 consize(400,400);
 
 
 ImGuiWindowFlags flags =0;

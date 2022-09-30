@@ -6,9 +6,6 @@
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
 #include "imgui-1.88/imgui.h"
-#include <iostream>
-#include <vector>
-#include "filesystem.hpp"
 #include "imgui-1.88/backends/imgui_impl_glfw.h"
 #include "imgui-1.88/backends/imgui_impl_opengl3.h"
 #include <cstdio>
@@ -190,6 +187,10 @@ int main(int, char**)
         if(confirmDelete)
         {
             confirmDeleteDialog();
+        }
+        if(confirmDeleteDirectory)
+        {
+            confirmDeleteDirectoryDialog();
         }
 
 

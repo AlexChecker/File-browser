@@ -5,7 +5,24 @@
 #ifndef TESTIMGUI_FUNCTIONS_H
 #define TESTIMGUI_FUNCTIONS_H
 
+#include <iostream>
+#include "filesystem.hpp"
+
 namespace fs=ghc::filesystem;
+
+bool deleteDirectory(std::string path)
+{
+    try
+    {
+        fs::remove_all(path);
+        return true;
+    }
+    catch(std::exception e)
+    {
+        std::cout<<e.what()<<std::endl;
+        return false;
+    }
+}
 
 void readFile(const std::string& path,std::string& content)
 {

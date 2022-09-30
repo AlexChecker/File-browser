@@ -8,6 +8,7 @@
 #include "variables.h"
 #include "functions.h"
 #include "filesystem.hpp"
+#include <iostream>
 
 namespace fs = ghc::filesystem;
 
@@ -38,6 +39,7 @@ void showDirectoriesList()
         {
             ImGui::MenuItem("Copy", nullptr,&copyDir);
             ImGui::MenuItem("Paste",nullptr,&pasteDir,copyDir);
+            ImGui::MenuItem("Delete", nullptr,&confirmDeleteDirectory);
             ImGui::EndMenu();
         }
 
@@ -63,9 +65,10 @@ void showDirectoriesList()
             }
             else
             {
-
-                std::cout<<copyDir<<" "<<dirCopied<<std::endl;
-                copyingDirPath = path+'/'+title;
+                if(sel>0) {
+                    std::cout << copyDir << " " << dirCopied << std::endl;
+                    fullDirPath = path + '/' + title;
+                }
 
             }
             paths.clear();
@@ -82,15 +85,18 @@ void showDirectoriesList()
         //copyingDirPath = path+'/'+title;
         std::cout<<"Copying dir "<<copyingDirPath<<std::endl;
         dirCopied= true;
+        selectionMode=false;
     }
+
+
     if(pasteDir)
     {
         std::cout<<copyingDirPath<<"|"<<path<<std::endl;
-        copyDirectory(copyingDirPath,path);
+        copyDirectory(fullDirPath,path);
         copyDir= false;
         dirCopied=false;
         pasteDir=false;
-        copyingDirPath="";
+        fullDirPath="";
         paths.clear();
         files.clear();
         fillVectorDirs(path,paths);
@@ -113,12 +119,37 @@ void fileExistsDialog()
 void directoryExistsDialog()
 {
     ImGui::Begin("Directory exists",ope,alertFlags);
-    ImGui::Text("Directory %s exists, can't overwrite",copyingDirPath.c_str());
+    ImGui::Text("Directory %s exists, can't overwrite",fullDirPath.c_str());
     dirExists=!ImGui::Button("Close");
     copyDir=false;
     dirExists=false;
     pasteDir=false;
     dirCopied = false;
+}
+
+void confirmDeleteDirectoryDialog()
+{
+    if(directoryExists(fullDirPath))
+    {
+        ImGui::Begin("Delete?");
+        ImGui::Text("Do you really want to delete this directory with it's contents?");
+        if(ImGui::Button("Yes"))
+        {
+            deleteDirectory(fullDirPath);
+            fullDirPath="";
+            confirmDeleteDirectory=false;
+        }
+        if(ImGui::Button("Close"))
+        {
+            fullDirPath="";
+            confirmDeleteDirectory=false;
+
+        }
+        paths.clear();
+        fillVectorDirs(path,paths);
+        selectionMode= false;
+        ImGui::End();
+    }
 }
 
 void confirmDeleteDialog()
