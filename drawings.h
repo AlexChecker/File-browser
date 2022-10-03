@@ -143,7 +143,6 @@ void confirmDeleteDirectoryDialog()
         {
             fullDirPath="";
             confirmDeleteDirectory=false;
-
         }
         paths.clear();
         fillVectorDirs(path,paths);

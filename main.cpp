@@ -9,6 +9,9 @@
 #include "imgui-1.88/backends/imgui_impl_glfw.h"
 #include "imgui-1.88/backends/imgui_impl_opengl3.h"
 #include <cstdio>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #include "variables.h"
 #include "drawings.h"
 #include "functions.h"
@@ -45,6 +48,8 @@ int main(int, char**)
 {
     //fs::path("/users/alex");
     // Setup window
+    struct passwd *pw = getpwuid(getuid());
+    path=pw->pw_dir;
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
@@ -58,7 +63,7 @@ int main(int, char**)
     glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_ES_API);
 #elif defined(__APPLE__)
     // GL 3.2 + GLSL 150
-    path ="/users";
+    //path ="/users";
     const char* glsl_version = "#version 150";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
